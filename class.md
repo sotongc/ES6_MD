@@ -91,4 +91,48 @@ class ColorPoint extends Point{
 
 如果子类没有定义`constructor`方法，这个方法会被默认添加，在子类的构造函数中，只有调用`super`之后，才可以使用`this`关键字，否则会报错。这是因为子类实例的构建，是基于对父类实例加工，只有`super`方法才能返回父类实例。
 
+###super关键字
 
+`super`这个关键字，有两种用法，含义不同。
+
+1. 作为函数调用时，`super`代表父类的构造函数。
+2. 作为对象调用时,即`super.prop`代表父类。此时`super`既可以引用父类实例的属性和方法，也可以引用父类的静态方法。
+
+##3. 原生构造函数的继承
+
+原生构造函数是指语言内置的构造函数，通常用来生成数据结构。ECMAScript的原生构造函数大致有下面这些。
+
+- `Boolean()`
+- `Number()`
+- `String()`
+- `Array()`
+- `Date()`
+- `Function()`
+- `RegExp()`
+- `Object()`
+
+以前，这些原生构造函数是无法继承的.ES5先新建子类的实例对象`this`,再将父类的属性添加到子类上，由于父类内部属性无法获取，导致无法继承原生的构造函数。ES6允许继承原生构造函数定义子类，因为ES6是先新建父类的实例对象`this`，然后再用子类的构造函数修饰`this`,使得父类的所有行为都可以继承。
+
+##4. Class的取值函数（getter)和存值函数(setter)
+
+与ES5一样，在Class内部可以使用`get`和`set`关键字，对某个属性设置存值函数和取值函数，拦截该属性的存取行为。
+
+```javascript
+class MyClass{
+    constructor(){
+
+    }
+    get prop(){
+        return 'getter'
+    }
+    set prop(value){
+        console.log('setter: '+value);
+    }
+}
+
+let inst=new MyClass();
+inst.prop=123;
+inst.prop
+```
+
+存值和取值是定义在属性的descriptor对象上的。
