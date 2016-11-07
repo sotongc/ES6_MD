@@ -201,4 +201,27 @@ var p=Promise.race([p1,p2,p3]);
 
 ##7. Promise.resolve()
 
+有时需要将现有对象转为Promise对象，`Promise.resolve`就起到这个作用。
 
+```javascript
+var jsPromise=Promise.resolve($.ajax('/whatever.json'));
+```
+
+`Promise.resolve`等价于下面的写法
+
+```javascript 
+Promise.resolve('foo')
+//等价于
+new Promise(resolve=>resolve('foo'))
+```
+
+该方法的参数分为四种情况
+
+1. 参数是一个Promise实例：那么该方法直接返回参数不做任何修改。
+2. 参数是一个`thenable`:方法会将这个对象转为Promise对象，然后就立即执行`thenable`对象的`then`方法
+3. 参数不是具有`then`方法的对象，或者根本就不是对象：返回一个新的Promise对象，状态为`Resolved`。
+4. 不带任何参数：直接返回一个`Resolved`状态的Promise对象。
+
+##9 两个有用的附加方法
+1. done()
+2. finally()
